@@ -21,8 +21,7 @@ public class Player : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other){
-        Debug.Log(other.name);
-        if(other.CompareTag("Death")){
+        if(other.CompareTag(Constants.DEATH_TAG)){
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
