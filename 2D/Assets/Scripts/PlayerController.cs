@@ -6,10 +6,19 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 
+    
+
     private Rigidbody2D physics;
+    [Header("Physics")]
     [SerializeField] float forceX = 1000f;
     [SerializeField] Vector2 direction = Vector2.zero;
     // Start is called before the first frame update
+
+    public bool onGround = false;
+    public float groundLength = 0.6f;
+    public LayerMask groundLayer;
+
+    [SerializeField] float jumpSpeed = 6f;
     void Start()
     {
         physics = gameObject.GetComponent<Rigidbody2D>();
@@ -34,7 +43,25 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate(){
         physics.AddForce(direction * Time.fixedDeltaTime);
+        onGround = Physics2D.Raycast(transform.position, Vector2.down, groundLength, groundLayer);
+        
     }
 
-    public void Jump(){}
+    public void Jump(InputAction.CallbackContext context){
+        Debug.Log(context);
+       
+        if(context.performed){
+            physics.AddForce(Vector2.up *jumpSpeed, ForceMode2D.Impulse);     
+        }
+        else if(context.canceled){
+
+        }
+    }
+
+   
+
+    public void OnDrawGizmos(){
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * groundLength);
+    }
 }

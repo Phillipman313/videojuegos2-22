@@ -8,7 +8,10 @@ public class GameManager : MonoBehaviour
     public int Lives {set; get;}
     [SerializeField] Transform CratesContainer;
     public static GameManager instance = null;
-    [SerializeField] private TextMeshProUGUI livesUI;
+    [SerializeField] TextMeshProUGUI livesUI;
+    [SerializeField] LevelLoader LevelManager;
+
+    private int currentLevel = 1;
 
     void Awake(){
         if(instance == null){
@@ -28,6 +31,8 @@ public class GameManager : MonoBehaviour
     void Update(){
         if(CratesContainer.childCount == 0){
             Debug.Log("Gano :)");
+            currentLevel++;
+            LevelManager.LoadLevel("Assets/Levels/Level"+currentLevel+".txt");
         }
         if(Lives <= 0){
             Debug.Log("Perdió :(");
